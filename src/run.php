@@ -1,17 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once '../vendor/autoload.php';
+require __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+$container = require APP_ROOT . 'config' . DIRECTORY_SEPARATOR . 'dependencies.php';
 
-use Monolog\Handler\ErrorLogHandler;
-use Monolog\Handler\RotatingFileHandler;
-use Monolog\Logger;
-use Scraper\Scraper;
+use FScraper\Commands\ParsePageCommand;
+use League\Tactician\CommandBus;
 
-// create a log channel
-$logger = new Logger('Scraper');
-$logger->pushHandler(new RotatingFileHandler('logs/scraper.log', Logger::WARNING));
-$logger->pushHandler(new ErrorLogHandler());
+/**
+ *
+ * SETUP THE BUSSES
+ *
+ */
 
-$scraper = new Scraper($logger);
-$data = $scraper->crawl($argv[1], 'HomeDetailPage');
-var_dump($data);
+$commandBus = $container->get(CommandBus::class);
+$cmd = new ParsePageCommand();
+$commandBus->handle($cmd);
+
+//$scraper = new Scraper();
+//$data = $scraper->crawl($argv[1], 'HomeDetailPage');
+//var_dump($data);
+
+
+
+

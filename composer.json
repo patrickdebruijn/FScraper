@@ -2,7 +2,16 @@
     "require": {
         "fabpot/goutte": "^3.2",
         "guzzlehttp/guzzle": "^6.3",
-        "monolog/monolog": "^1.24"
+        "monolog/monolog": "^1.24",
+        "symfony/dependency-injection": "^4.2",
+        "vlucas/phpdotenv": "^3.3",
+        "league/tactician-container": "^2.0",
+        "league/tactician": "^1.0",
+        "container-interop/container-interop": "^1.2",
+        "league/container": "^3.2",
+        "league/tactician-logger": "^0.10.0",
+        "league/event": "^2.2",
+        "league/tactician-command-events": "^0.6.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",

@@ -1,11 +1,11 @@
 <?php
 
-namespace Scraper;
+namespace FScraper\Modules\Scraper;
 
+use FScraper\Modules\Scraper\Templates\Interfaces\TemplateInterface;
 use Goutte\Client as GoutteClient;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Log\LoggerInterface;
-use Scraper\Templates\Interfaces\TemplateInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Throwable;
 
@@ -33,17 +33,20 @@ class Scraper
      */
     private $logger;
 
+    private $templateMap;
 
     /**
      * App constructor.
      *
      * @param LoggerInterface $logger
-     * @param array  $guzzleClientSettings
+     * @param array           $templateMap
+     * @param array           $guzzleClientSettings
      */
-    public function __construct(LoggerInterface $logger, array $guzzleClientSettings = ['timeout' => 60])
+    public function __construct(LoggerInterface $logger, array $templateMap = [], array $guzzleClientSettings = ['timeout' => 60])
     {
         $this->logger = $logger;
         $this->guzzleClientSettings = $guzzleClientSettings;
+        $this->templateMap = $templateMap;
     }
 
     /**
@@ -115,9 +118,8 @@ class Scraper
      */
     protected function getTemplate(String $name): TemplateInterface
     {
-        if (file_exists("Templates/$name.php")) {
-            $className = "Scraper\Templates\\".$name;
-            return new $className();
+        if (array_key_exists($name, $this->templateMap)) {
+            return $this->templateMap[$name];
         }
 
         throw new \Exception("No template with name $name found", 404);

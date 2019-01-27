@@ -1,7 +1,8 @@
 <?php
-namespace Scraper\Templates;
 
-use Scraper\Templates\Interfaces\TemplateInterface;
+namespace FScraper\Modules\Scraper\Templates;
+
+use FScraper\Modules\Scraper\Templates\Interfaces\TemplateInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
