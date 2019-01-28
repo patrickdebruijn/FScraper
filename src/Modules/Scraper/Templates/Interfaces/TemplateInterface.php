@@ -16,5 +16,5 @@ interface TemplateInterface
      *
      * @return array
      */
-    public function parse(Crawler $crawler): array;
+    public static function parse(Crawler $crawler): array;
 }

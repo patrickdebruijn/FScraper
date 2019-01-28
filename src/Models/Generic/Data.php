@@ -32,7 +32,7 @@ final class Data
      */
     public static function fromString(string $data): self
     {
-        return new self(\json_decode($data, TRUE));
+        return new self(\json_decode($data, true));
     }
 
     /**
@@ -40,7 +40,7 @@ final class Data
      *
      * @return Data
      */
-    public function fromArray(array $data): self
+    public static function fromArray(array $data): self
     {
         return new self($data);
     }

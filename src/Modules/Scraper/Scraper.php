@@ -32,7 +32,9 @@ class Scraper
      * @var LoggerInterface
      */
     private $logger;
-
+    /**
+     * @var array
+     */
     private $templateMap;
 
     /**
@@ -51,6 +53,18 @@ class Scraper
 
     /**
      * @param String $url
+     *
+     * @param String $method
+     *
+     * @return Crawler
+     */
+    public function request(String $url, String $method = 'GET'): Crawler
+    {
+        return $this->getGoutteClient()->request($method, $url);
+    }
+
+    /**
+     * @param String $url
      * @param String $templateName
      * @param String $method
      * @param array  $data
@@ -60,16 +74,41 @@ class Scraper
     public function crawl(String $url, String $templateName, String $method = 'GET', array $data = []): array
     {
         $this->logger->info("Crawling $templateName page: $url");
-        $crawler = $this->request($url, $method);
 
         try {
-            $data = $this->getTemplate($templateName)->parse($crawler);
+            $crawler = $this->request($url, $method);
+            $template = $this->getTemplate($templateName);
+            $data = $template->parse($crawler);
         } catch (Throwable $exception) {
             $msg = $exception->getMessage().' In file: '. $exception->getFile().' On line: '. $exception->getLine();
             $this->logger->error($msg, ['$url'=>$url,'$templateName'=>$templateName,'$method'=>$method,'$data'=>$data]);
             $data = [];
         }
+
         //$this->logger->debug("Crawler results for page $url with template $templateName", $data);
+        return $data;
+    }
+
+    /**
+     * @param String $url
+     * @param String $method
+     * @param array  $data
+     *
+     * @return string
+     */
+    public function html(String $url, String $method = 'GET', array $data = []): string
+    {
+        $this->logger->info("Downloading page: $url");
+
+        try {
+            $crawler = $this->request($url, $method);
+            $data = $crawler->html();
+        } catch (Throwable $exception) {
+            $msg = $exception->getMessage() . ' In file: ' . $exception->getFile() . ' On line: ' . $exception->getLine();
+            $this->logger->error($msg, ['$url' => $url, '$method' => $method, '$data' => $data]);
+            $data = '';
+        }
+
         return $data;
     }
 
@@ -99,16 +138,6 @@ class Scraper
         return $this->goutteClient;
     }
 
-    /**
-     * @param String $url
-     *
-     * @param String $method
-     * @return Crawler
-     */
-    protected function request(String $url, String $method = 'GET'): Crawler
-    {
-        return $this->getGoutteClient()->request($method, $url);
-    }
 
     /**
      * @param String $name

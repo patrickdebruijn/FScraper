@@ -1,7 +1,8 @@
 <?php
 
-use FScraper\Commands\ParsePageCommand;
-use FScraper\Handlers\ParsePageHandler;
+use FScraper\CommandHandlers\ParseHomeDetailPageHandler;
+use FScraper\Commands\ParseHomeDetailPageCommand;
+use FScraper\Modules\Scraper\Scraper;
 use League\Event\Emitter;
 use League\Tactician\CommandBus;
 use League\Tactician\CommandEvents\Event\CommandFailed;
@@ -10,23 +11,24 @@ use League\Tactician\Container\ContainerLocator;
 use League\Tactician\Handler\CommandHandlerMiddleware;
 use League\Tactician\Handler\CommandNameExtractor\ClassNameExtractor;
 use League\Tactician\Handler\MethodNameInflector\HandleInflector;
-use League\Tactician\Logger\Formatter\ClassPropertiesFormatter;
+use League\Tactician\Logger\Formatter\ClassNameFormatter;
 use League\Tactician\Logger\LoggerMiddleware;
 use League\Tactician\Plugins\LockingMiddleware;
 use Psr\Log\LogLevel;
 
 //Commands
-$container->share(ParsePageCommand::class);
+$container->share(ParseHomeDetailPageCommand::class);
 
-//Handlers
-$container->share(ParsePageHandler::class)
-    ->addArgument($container->get('app.infrastructure.logger'));
+//CommandHandlers
+$container->share(ParseHomeDetailPageHandler::class)
+    ->addArgument($container->get('app.infrastructure.logger'))
+    ->addArgument(Scraper::class);
 
 //CommandHandlerMap
 $container->add(
     'app.commandHandlerMap',
     [
-        ParsePageCommand::class => ParsePageHandler::class,
+        ParseHomeDetailPageCommand::class => ParseHomeDetailPageHandler::class,
     ]
 );
 
@@ -37,7 +39,7 @@ $container
     ->add(ClassNameExtractor::class);
 
 $container
-    ->add(ClassPropertiesFormatter::class)
+    ->add(ClassNameFormatter::class)
     ->addArgument(LogLevel::DEBUG)
     ->addArgument(LogLevel::INFO)
     ->addArgument(LogLevel::CRITICAL);
@@ -55,7 +57,7 @@ $container
 
 $container
     ->add(LoggerMiddleware::class)
-    ->addArgument($container->get(ClassPropertiesFormatter::class))
+    ->addArgument($container->get(ClassNameFormatter::class))
     ->addArgument($container->get('app.infrastructure.logger'));
 
 $container
