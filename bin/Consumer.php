@@ -17,13 +17,5 @@ $commandBus = $container->get(CommandBus::class);
 $cmd = new ParseHomeDetailPageCommand();
 $cmd->setPayload([
     'url' => 'https://www.funda.nl/koop/rotterdam/appartement-40064886-jufferkade-89/',
-    'templateName' => 'HomeDetailPage',
-    'method' => 'GET',
-    'data' => [],
 ]);
 $commandBus->handle($cmd);
-
-//$scraper = new Scraper();
-//$data = $scraper->crawl($argv[1], 'HomeDetailPage');
-//var_dump($data);
-

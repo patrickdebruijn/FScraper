@@ -13,7 +13,6 @@ class ParseHomeDetailPageCommand extends AbstractCommand
 {
     protected $url;
 
-
     protected $method;
 
     protected $data;
@@ -24,6 +23,9 @@ class ParseHomeDetailPageCommand extends AbstractCommand
     public function url(): Url
     {
         if ($this->url === null) {
+            if (!array_key_exists('url', $this->payload)) {
+                //@TODO Throw CommandIsMissingDataException::withCommand(self,'url');
+            }
             $this->url = Url::fromString($this->payload['url']);
         }
 
@@ -37,7 +39,7 @@ class ParseHomeDetailPageCommand extends AbstractCommand
     public function method(): Method
     {
         if ($this->method === null) {
-            $this->method = Method::fromString($this->payload['method']);
+            $this->method = Method::fromString($this->payload['method'] ?? 'GET');
         }
 
         return $this->method;
@@ -49,7 +51,7 @@ class ParseHomeDetailPageCommand extends AbstractCommand
     public function data(): Data
     {
         if ($this->data === null) {
-            $this->data = Data::fromArray($this->payload['data']);
+            $this->data = Data::fromArray($this->payload['data'] ?? []);
         }
 
         return $this->data;
