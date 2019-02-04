@@ -36,10 +36,10 @@ final class ParseHomeDetailPageHandler extends AbstractCommandHandler
         $page = [
             'url' => $command->url()->toString(),
             'data' => $this->scraper->crawl(
-                $command->url()->toString(),
-                'HomeDetailPage',
-                $command->method()->toString(),
-                $command->data()->toArray(),
+	            $command->url ()->toString (),
+	            'HomeDetailPage',
+	            $command->method ()->toString (),
+	            $command->data ()->toArray ()
                 ),
             'time' => time(),
         ];

@@ -1,0 +1,12 @@
+version: '2.1'
+services:
+  scraper:
+    container_name: scraper
+    build:
+      context: ./.docker/
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www
+    environment:
+      - PHP_IDE_CONFIG=scraper
+      - XDEBUG_CONFIG=remote_port=9000 idekey=scraper remote_host=host.docker.internal profiler_enable=1
