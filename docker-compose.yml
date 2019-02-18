@@ -5,6 +5,7 @@ services:
     build:
       context: ./.docker/
       dockerfile: Dockerfile
+    hostname: scraper
     volumes:
       - .:/var/www
     environment:

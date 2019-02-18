@@ -85,7 +85,8 @@ class Scraper
             $data = [];
         }
 
-        //$this->logger->debug("Crawler results for page $url with template $templateName", $data);
+
+	    //$this->logger->debug("Crawler results for page $url with template $templateName", $data);
         return $data;
     }
 

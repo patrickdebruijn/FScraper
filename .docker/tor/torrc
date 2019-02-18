@@ -1,0 +1,14 @@
+ControlSocket /etc/tor/run/control
+ControlSocketsGroupWritable 1
+DataDirectory /var/lib/tor
+RunAsDaemon 0
+User tor
+SocksPort 9050
+ControlPort 9051
+AutomapHostsOnResolve 1
+ExitPolicy reject *:*
+VirtualAddrNetworkIPv4 10.192.0.0/10
+DNSPort 5353
+TransPort 9040
+MaxCircuitDirtiness 600
+CircuitBuildTimeout 60

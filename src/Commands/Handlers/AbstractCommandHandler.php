@@ -1,6 +1,6 @@
 <?php
 
-namespace FScraper\CommandHandlers;
+namespace FScraper\Commands\Handlers;
 
 use Psr\Log\LoggerInterface;
 

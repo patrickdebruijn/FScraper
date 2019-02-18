@@ -18,7 +18,6 @@ set_time_limit (-1);
 $commandBus = $container->get(CommandBus::class);
 $cmd = new ParseHomeDetailPageCommand();
 $cmd->setPayload([
-    'url' => 'https://www.funda.nl/koop/rotterdam/appartement-40064886-jufferkade-89/',
+	'url' => 'https://www.funda.nl/koop/leidschendam/huis-40820553-westvlietweg-126/',
 ]);
-sleep (60);
 $commandBus->handle($cmd);

@@ -1,6 +1,6 @@
 <?php
 
-use FScraper\CommandHandlers\ParseHomeDetailPageHandler;
+use FScraper\Commands\Handlers\ParseHomeDetailPageHandler;
 use FScraper\Commands\ParseHomeDetailPageCommand;
 use FScraper\Modules\Scraper\Scraper;
 use League\Event\Emitter;
@@ -16,6 +16,7 @@ use League\Tactician\Logger\LoggerMiddleware;
 use League\Tactician\Plugins\LockingMiddleware;
 use Psr\Log\LogLevel;
 
+//@TODO//Autofind / load commands + handlerMaps
 //Commands
 $container->share(ParseHomeDetailPageCommand::class);
 
